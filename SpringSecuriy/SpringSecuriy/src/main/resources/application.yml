@@ -1,0 +1,37 @@
+server:
+  port: 9000
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.security: INFO
+    org.springframework.security.oauth2: INFO
+
+spring:
+  security:
+    oauth2:
+      authorizationserver:
+        issuer: http://localhost:9000
+        client:
+          articles-client:
+            registration:
+              client-id: articles-client
+              client-secret: "{noop}secret"
+              client-name: Articles Client
+              client-authentication-methods:
+                - client_secret_basic
+              authorization-grant-types:
+                - client_credentials
+                - authorization_code
+                - refresh_token
+              redirect-uris:
+                - http://127.0.0.1:8080/login/oauth2/code/articles-client-oidc
+                - http://127.0.0.1:8080/authorized
+              scopes:
+                - openid
+                - articles.read
+              token-settings:
+                access-token-format: self-contained
+                access-token-time-to-live: 2m
+                refresh-token-time-to-live: 7m
